@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "lib": [
+			"dom",
+			"dom.iterable",
+			"esnext"
+		],
+    "target": "esnext", 
+    "module": "CommonJS",
+		"moduleResolution": "Node",
+    "outDir": "./build",
+    "emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "useDefineForClassFields": true,
+    "strictNullChecks": true,
+    "rootDirs": [
+			"./src"
+		],
+    "paths": {
+			"@/*": [
+				"./src/*"
+			]
+		},
+  }
+}
