@@ -2,7 +2,10 @@ import { Response } from "express";
 import { RequisicaoExibirPorId, RequisicaoListagem } from "../types/requests";
 import { getPagination } from "../utils/get-pagination";
 import AnunciosService from "../services/anuncios-service";
-import { RequisicaoCriarAnuncio } from "../types/anuncios";
+import {
+  RequisicaoCriarAnuncio,
+  RequisicaoEditarAnuncio,
+} from "../types/anuncios";
 
 export default class AnunciosController {
   constructor(private anuncioService: AnunciosService) {}
@@ -48,9 +51,45 @@ export default class AnunciosController {
       },
     });
 
-    return res.status(200).json(anuncio)
+    return res.status(200).json(anuncio);
   }
 
-  
   //todo criar controller de atualizar e de apagar para anuncios
+
+  async atualizarAnuncio(req: RequisicaoEditarAnuncio, res: Response) {
+    const { categoriaId, descricao, nome, valorEmCentavos } = req.body;
+    const { id } = req.params;
+
+    const categoriaAtualizada = await this.anuncioService.atualizarAnuncio({
+      where: {
+        id,
+      },
+      data: {
+        nome,
+        valorEmCentavos,
+        descricao,
+        ...(categoriaId && {
+          categoria: {
+            connect: {
+              id: categoriaId,
+            },
+          },
+        }),
+      },
+    });
+
+    return res.status(200).json(categoriaAtualizada);
+  }
+
+  async deletarAnuncio(req: RequisicaoExibirPorId, res: Response) {
+    const { id } = req.params;
+
+    const anuncioDeletado = await this.anuncioService.deletarAnuncio({
+      where: {
+        id,
+      },
+    });
+
+    return res.status(200).json(anuncioDeletado);
+  }
 }
