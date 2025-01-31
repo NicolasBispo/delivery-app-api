@@ -35,9 +35,10 @@ model Ad {
   priceInCents Int      @default(0)
   categoryId   String
   category     Category @relation(fields: [categoryId], references: [id])
+  photos AdPhoto[]
 }
 
-model AdPhotos {
+model AdPhoto {
   id           String @id @default(uuid())
   fieldname    String
   originalname String
@@ -47,6 +48,8 @@ model AdPhotos {
   destination  String
   filename     String
   path         String
+  adId String
+  ad Ad @relation(fields: [adId], references: [id])
 }
 
 model Order {
