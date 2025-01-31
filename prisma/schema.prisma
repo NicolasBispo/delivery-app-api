@@ -37,6 +37,10 @@ model Ad {
   category     Category @relation(fields: [categoryId], references: [id])
 }
 
+model AdPhotos {
+  id           String   @id @default(uuid())
+  path String
+}
 model Order {
   id              String      @id @default(uuid())
   orderItems      OrderItem[]
