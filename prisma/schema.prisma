@@ -13,44 +13,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Usuario {
-  id          String   @id @default(uuid())
-  primeiroNme String
-  ultimoNome  String?
-  email       String
-  senha       String
-  pedidos     Pedido[]
+model User {
+  id        String  @id @default(uuid())
+  firstName String
+  lastName  String?
+  email     String
+  password  String
+  orders    Order[]
 }
 
-model Categoria {
-  id       String    @id @default(uuid())
-  nome     String
-  anuncios Anuncio[]
+model Category {
+  id   String @id @default(uuid())
+  name String
+  ads  Ad[]
 }
 
-model Anuncio {
-  id              String    @id @default(uuid())
-  nome            String
-  descricao       String
-  valorEmCentavos Int       @default(0)
-  categoriaId     String
-  categoria       Categoria @relation(fields: [categoriaId], references: [id])
+model Ad {
+  id           String   @id @default(uuid())
+  name         String
+  description  String
+  priceInCents Int      @default(0)
+  categoryId   String
+  category     Category @relation(fields: [categoryId], references: [id])
 }
 
-model Pedido {
-  id              String       @id @default(uuid())
-  itemsPedido     ItemPedido[]
-  enderecoEntrega String
-  usuarioId       String
-  usuario         Usuario      @relation(fields: [usuarioId], references: [id])
-  criadoEm        DateTime     @default(now())
+model Order {
+  id              String      @id @default(uuid())
+  orderItems      OrderItem[]
+  deliveryAddress String
+  userId          String
+  user            User        @relation(fields: [userId], references: [id])
+  createdAt       DateTime    @default(now())
 }
 
-model ItemPedido {
-  id              String   @id @default(uuid())
-  valorEmCentavos Int
-  criadoEm        DateTime @default(now())
-  atualizadoEm    DateTime @updatedAt
-  pedidoId        String
-  pedido          Pedido   @relation(fields: [pedidoId], references: [id])
+model OrderItem {
+  id           String   @id @default(uuid())
+  priceInCents Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  orderId      String
+  order        Order    @relation(fields: [orderId], references: [id])
 }
