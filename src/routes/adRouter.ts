@@ -1,5 +1,6 @@
 import AdController from "@/controllers/adController";
 import { validateBody } from "@/middlewares/errorValidation";
+import { adUpload } from "@/middlewares/uploadMiddleware";
 import { createAdSchema, updateAdSchema } from "@/schema/adSchemas";
 import { Router } from "express";
 
@@ -11,6 +12,7 @@ adRouter.get("/", adController.index.bind(adController));
 adRouter.get("/:id", adController.show.bind(adController));
 adRouter.post(
   "/",
+  adUpload,
   validateBody(createAdSchema),
   adController.create.bind(adController)
 );

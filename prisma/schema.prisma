@@ -38,9 +38,17 @@ model Ad {
 }
 
 model AdPhotos {
-  id           String   @id @default(uuid())
-  path String
+  id           String @id @default(uuid())
+  fieldname    String
+  originalname String
+  encoding     String
+  mimetype     String
+  size         Int
+  destination  String
+  filename     String
+  path         String
 }
+
 model Order {
   id              String      @id @default(uuid())
   orderItems      OrderItem[]
@@ -57,4 +65,27 @@ model OrderItem {
   updatedAt    DateTime @updatedAt
   orderId      String
   order        Order    @relation(fields: [orderId], references: [id])
+}
+
+
+model ServerLog {
+  id String @id @default(uuid())
+  action String
+  message String
+}
+
+enum RequestMethod {
+  POST
+  GET
+  PUT
+  PATCH
+  DELETE
+}
+model RequestLog{
+  id String @id @default(uuid())
+  requestMethod RequestMethod
+  url String
+  clientIp String @db.VarChar(45)
+  country String
+  timestamp DateTime @default(now())
 }
