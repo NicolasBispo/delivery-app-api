@@ -1,18 +1,17 @@
-import { CreateOrderRequest, UpdateOrderRequest } from "@/types/order";
-import { ListRequest, ShowByIdRequest } from "@/types/requests";
-import { getPagination } from "@/utils/get-pagination";
-import { PrismaClient } from "@prisma/client";
 import { Response } from "express";
+import { ShowByIdRequest, ListRequest } from "../types/requests";
+import { getPagination } from "../utils/get-pagination";
+import { PrismaClient } from "@prisma/client";
+import { CreateAdRequest, UpdateAdRequest } from "@/types/ad";
 
-export default class OrderController {
+export default class AdController {
   prisma = new PrismaClient();
-
   async index(req: ListRequest, res: Response) {
     const { page, perPage } = getPagination(req);
     const skip = (page - 1) * perPage;
     const totalItems = await this.prisma.ad.count();
     const totalPages = Math.ceil(totalItems / perPage);
-    const results = await this.prisma.order.findMany({
+    const results = await this.prisma.ad.findMany({
       skip: skip,
       take: perPage,
     });
@@ -24,44 +23,40 @@ export default class OrderController {
       results,
     });
   }
-
   async show(req: ShowByIdRequest, res: Response) {
     const id = req.params.id;
-    const order = await this.prisma.order.findUnique({ where: { id } });
-    res.status(200).json(order);
+    const ad = await this.prisma.ad.findUnique({ where: { id } });
+    res.status(200).json(ad);
   }
 
-  async create(req: CreateOrderRequest, res: Response) {
-    const order = await this.prisma.order.create({
-      data: {
-        ...req.body,
-      },
+  async create(req: CreateAdRequest, res: Response) {
+    const ad = await this.prisma.ad.create({
+      data: req.body,
     });
 
-    return res.status(200).json(order);
+    return res.status(200).json(ad);
   }
 
-  async update(req: UpdateOrderRequest, res: Response) {
+  async update(req: UpdateAdRequest, res: Response) {
     const { id } = req.params;
-
-    const updatedOrder = await this.prisma.order.update({
+    const updatedAd = await this.prisma.ad.update({
       where: {
         id,
       },
       data: req.body,
     });
-
-    return res.status(200).json(updatedOrder);
+    return res.status(200).json(updatedAd);
   }
 
   async destroy(req: ShowByIdRequest, res: Response) {
     const { id } = req.params;
 
-    const deletedOrder = await this.prisma.order.delete({
+    await this.prisma.ad.delete({
       where: {
         id,
       },
     });
+
     return res.status(200).end();
   }
 }

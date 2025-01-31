@@ -1,13 +1,13 @@
 import { Request } from "express";
 
-export interface RequisicaoListagem extends Request {
+export interface ListRequest extends Request {
   query: {
-    pagina: string
-    porPagina: string
-  }
+    page: string;
+    perPage: string;
+  };
 }
-export interface RequisicaoExibirPorId extends Request {
+export interface ShowByIdRequest extends Request {
   params: {
-    id: string
-  }
+    id: string;
+  };
 }

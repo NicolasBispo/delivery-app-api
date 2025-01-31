@@ -1,10 +1,10 @@
-import { RequisicaoListagem } from "../types/requests";
+import { ListRequest } from "../types/requests";
 
-export function getPagination(request: RequisicaoListagem) {
-  const { pagina = 1, porPagina = 12 } = request.query;
+export function getPagination(request: ListRequest) {
+  const { page = 1, perPage = 12 } = request.query;
 
   return {
-    pagina: Number(pagina),
-    porPagina: Number(porPagina),
+    page: Number(page),
+    perPage: Number(perPage),
   };
 }
