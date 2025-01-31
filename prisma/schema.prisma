@@ -23,9 +23,24 @@ model User {
 }
 
 model Category {
-  id   String @id @default(uuid())
-  name String
-  ads  Ad[]
+  id              String       @id @default(uuid())
+  name            String
+  ads            Ad[]
+  categoryIcon CategoryIcon?
+}
+
+model CategoryIcon {
+  id           String   @id @default(uuid())
+  fieldname    String
+  originalname String
+  encoding     String
+  mimetype     String
+  size         Int
+  destination  String
+  filename     String
+  path         String
+  category     Category @relation(fields: [categoryId], references: [id]) 
+  categoryId   String   @unique
 }
 
 model Ad {
