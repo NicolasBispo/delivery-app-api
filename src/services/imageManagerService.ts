@@ -1,5 +1,4 @@
-import { STORAGE_DIR } from "@/config/constants";
-import { rm, rmSync } from "fs";
+import { rm } from "fs";
 import ServerLogService from "./serverLogService";
 
 export default class ImageManagerService {
